@@ -23,7 +23,10 @@ import os
 import sys
 import collections
 import importlib
-import cPickle
+try:
+    import pickle
+except ImportError:
+    import cPickle as pickle
 
 from hl7apy.exceptions import UnsupportedVersion, InvalidEncodingChars, UnknownValidationLevel
 from hl7apy.consts import DEFAULT_ENCODING_CHARS, DEFAULT_VERSION, VALIDATION_LEVEL
