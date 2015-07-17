@@ -26,8 +26,10 @@ import re
 from optparse import OptionParser
 from lxml import objectify
 import collections
-import cPickle
-
+try:
+    import pickle
+except ImportError:
+    import cPickle as pickle
 
 class ProfileParser(object):
 
