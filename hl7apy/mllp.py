@@ -21,7 +21,7 @@
 
 import re
 import socket
-from SocketServer import StreamRequestHandler, TCPServer, ThreadingMixIn
+from socketserver import StreamRequestHandler, TCPServer, ThreadingMixIn
 
 from hl7apy.parser import get_message_type
 from hl7apy.exceptions import HL7apyException, ParserError

@@ -90,7 +90,7 @@ class TestValidation(unittest.TestCase):
             regex = 'Error:.*'
         elif error_type == 'WARNING':
             regex = 'Warning:.*'
-        self.assertRegexpMatches(s, regex)
+        self.assertRegex(s, regex)
         os.remove(self.report_file)
 
     def test_well_structured_message(self):
@@ -394,7 +394,7 @@ class TestMessageProfile(unittest.TestCase):
             regex = 'Error:.*'
         elif error_type == 'WARNING':
             regex = 'Warning:.*'
-        self.assertRegexpMatches(s, regex)
+        self.assertRegex(s, regex)
         os.remove(self.report_file)
 
     def test_well_structured_message(self):

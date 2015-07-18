@@ -26,7 +26,7 @@ import importlib
 try:
     import pickle
 except ImportError:
-    import cPickle as pickle
+    import pickle as pickle
 
 from hl7apy.exceptions import UnsupportedVersion, InvalidEncodingChars, UnknownValidationLevel
 from hl7apy.consts import DEFAULT_ENCODING_CHARS, DEFAULT_VERSION, VALIDATION_LEVEL
@@ -56,7 +56,7 @@ def check_encoding_chars(encoding_chars):
     if missing:
         raise InvalidEncodingChars('Missing required encoding chars')
 
-    values = [v for k, v in encoding_chars.items() if k in required]
+    values = [v for k, v in list(encoding_chars.items()) if k in required]
     if len(values) > len(set(values)):
         raise InvalidEncodingChars('Found duplicate encoding chars')
 

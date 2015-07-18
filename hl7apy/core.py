@@ -576,11 +576,11 @@ class ElementFinder(object):
             data['ordered_children'] = ordered_children
             data['structure_by_name'] = structure
             if is_profile is False:
-                data['structure_by_longname'] = {e['ref'][2]: e for e in structure.values()
+                data['structure_by_longname'] = {e['ref'][2]: e for e in list(structure.values())
                                                  if e['ref'][0] == 'leaf'}
             else:
                 # in this case the len is 6 and not 5 as above because here the first is 'mp'
-                data['structure_by_longname'] = {e['ref'][7]: e for e in structure.values()
+                data['structure_by_longname'] = {e['ref'][7]: e for e in list(structure.values())
                                                  if e['ref'][1] == 'leaf' or len(e['ref']) > 6}
 
         if content_type == 'leaf' or (is_profile and len(reference) > 5):
@@ -806,7 +806,7 @@ class Element(object):
     def _find_structure(self, reference=None):
         if self.name is not None:
             structure = ElementFinder.get_structure(self, reference)
-            for k, v in structure.items():
+            for k, v in list(structure.items()):
                 setattr(self, k, v)
 
     def _is_valid_child(self, child):
@@ -903,7 +903,7 @@ class SupportComplexDataType(Element):
                 datatype not in ('varies', None, self.datatype):
             reference = load_reference(datatype, 'Component', self.version)
             structure = ElementFinder.get_structure(self, reference)
-            for k, v in structure.items():
+            for k, v in list(structure.items()):
                 setattr(self, k, v)
 
         if hasattr(self, 'children') and len(self.children) >= 1:
