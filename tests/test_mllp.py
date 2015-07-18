@@ -115,10 +115,11 @@ class TestMLLPWithErrorHandler(unittest.TestCase):
     def _client(self, msg):
         # establish the connection
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
         try:
             sock.connect((HOST, PORT))
             sock.sendall(msg.encode('ascii'))
-            res = []
+            res = list()
             while True:
                 received = sock.recv(1)
                 if not received:
