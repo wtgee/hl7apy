@@ -310,7 +310,7 @@ def find_reference(name, element_types, version):
 
 
 def load_message_profile(path):
-    with open(path) as f:
+    with open(path, 'rb') as f:
         mp = pickle.load(f)
 
     return mp
