@@ -290,7 +290,7 @@ class ElementList(collections.MutableSequence):
         reference = None if name is None else self.element.find_child_reference(name)
         child_ref, child_name = (None, None) if reference is None else (reference['ref'], reference['name'])
 
-        if isinstance(value, basestring):  # if the value is a basestring, parse it
+        if isinstance(value, str):  # if the value is a str, parse it
             child = self.element.parse_child(value, child_name=child_name, reference=child_ref)
         elif isinstance(value, Element):  # it is already an instance of Element
             child = value
@@ -618,7 +618,7 @@ class Element(object):
 
         check_validation_level(validation_level)
         check_version(version)
-        
+
         self.validation_level = validation_level
         self.name = name.upper() if name is not None else None
         self.version = version
@@ -1111,7 +1111,7 @@ class SubComponent(CanBeVaries):
         if value is None:
             self._value = None
         else:
-            if value and isinstance(value, basestring):
+            if value and isinstance(value, str):
                 self._value = datatype_factory(self.datatype, value, self.version,
                                                self.validation_level)
             elif not value or isinstance(value, BaseDataType):
