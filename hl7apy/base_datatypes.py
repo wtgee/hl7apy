@@ -34,6 +34,7 @@
 
 import re
 import numbers
+import functools
 from datetime import datetime
 from decimal import Decimal
 
@@ -145,7 +146,7 @@ class TextualDataType(BaseDataType):
                 else:
                     raise InvalidHighlightRange(x, y)
 
-            self.highlights = sorted(self.highlights, cmp=_sort_highlights)
+            self.highlights = sorted(self.highlights, key=functools.cmp_to_key(_sort_highlights))
             words = list(value)
             offset = 0
             for hl in self.highlights:
