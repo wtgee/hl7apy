@@ -123,7 +123,7 @@ class TestMLLPWithErrorHandler(unittest.TestCase):
                 received = sock.recv(1)
                 if not received:
                     break
-                res.append(received)
+                res.append(received.decode('ascii'))
         finally:
             sock.close()
 
@@ -173,13 +173,13 @@ class TestMLLPWithoutErrorHandler(unittest.TestCase):
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         try:
             sock.connect((HOST, PORT + 1))
-            sock.sendall(msg.encode('ascii')
-            res = []
+            sock.sendall(msg.encode('ascii'))
+            res = list()
             while True:
                 received = sock.recv(1)
                 if not received:
                     break
-                res.append(received)
+                res.append(received.decode('ascii'))
         finally:
             sock.close()
 
