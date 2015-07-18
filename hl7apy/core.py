@@ -806,7 +806,7 @@ class Element(object):
     def _find_structure(self, reference=None):
         if self.name is not None:
             structure = ElementFinder.get_structure(self, reference)
-            for k, v in structure.iteritems():
+            for k, v in structure.items():
                 setattr(self, k, v)
 
     def _is_valid_child(self, child):
@@ -903,7 +903,7 @@ class SupportComplexDataType(Element):
                 datatype not in ('varies', None, self.datatype):
             reference = load_reference(datatype, 'Component', self.version)
             structure = ElementFinder.get_structure(self, reference)
-            for k, v in structure.iteritems():
+            for k, v in structure.items():
                 setattr(self, k, v)
 
         if hasattr(self, 'children') and len(self.children) >= 1:
