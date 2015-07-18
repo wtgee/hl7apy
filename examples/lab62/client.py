@@ -38,7 +38,7 @@ def query(host, port, patient_id):
     try:
         sock.connect((host, port))
         # send the message
-        sock.sendall(message)
+        sock.sendall(message.encode('ascii'))
         # receive the answer
         received = sock.recv(1024*1024)
         message = MLLProtocol.get_message(received)
