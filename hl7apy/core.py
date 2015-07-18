@@ -1438,7 +1438,7 @@ class Field(SupportComplexDataType):
 
     def _get_children(self, trailing=False):
         if self.datatype == 'varies':
-            children = [self.children.indexes['VARIES_{0}'.format(i+1)] for i in xrange(len(self.children))]
+            children = [self.children.indexes['VARIES_{0}'.format(i+1)] for i in range(len(self.children))]
             children = _remove_trailing(children)
             children.extend([[c] for c in self.children if c.is_unknown()])
             return children
@@ -1699,7 +1699,7 @@ class Segment(Element):
     def _get_children(self, trailing=False):
         children = self.children.get_ordered_children()
         if self.allow_infinite_children:
-            for i in xrange(self._last_allowed_child_index + 1, self._last_child_index + 1):
+            for i in range(self._last_allowed_child_index + 1, self._last_child_index + 1):
                 children.append(self.children.indexes.get('{}_{}'.format(self.name, i), None))
         children.extend([c for c in self.children.get_children() if c[0].name in (None, 'ST')])
         if not trailing:
