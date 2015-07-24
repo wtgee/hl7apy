@@ -115,7 +115,7 @@ class TextualDataType(BaseDataType):
     def __init__(self, value, max_length=32, highlights=None,
                  validation_level=None):
         self.highlights = highlights
-        super(TextualDataType, self).__init__(value, max_length,
+        super().__init__(value, max_length,
                                               validation_level)
 
     def to_er7(self, encoding_chars=None):
@@ -190,7 +190,7 @@ class NumericDataType(BaseDataType):
     """
     def __init__(self, value=None, max_length=16,
                  validation_level=None):
-        super(NumericDataType, self).__init__(value, max_length,
+        super().__init__(value, max_length,
                                               validation_level)
 
 
@@ -234,7 +234,7 @@ class DT(DateTimeDataType):
     allowed_formats = ('%Y', '%Y%m', '%Y%m%d')
 
     def __init__(self, value=None, out_format='%Y%m%d'):
-        super(DT, self).__init__(value, out_format)
+        super().__init__(value, out_format)
 
 
 class TM(DateTimeDataType):
@@ -258,7 +258,7 @@ class TM(DateTimeDataType):
     allowed_formats = ('%H', '%H%M', '%H%M%S', '%H%M%S.%f')
 
     def __init__(self, value=None, out_format='%H%M%S.%f', offset='', microsec_precision=4):
-        super(TM, self).__init__(value, out_format)
+        super().__init__(value, out_format)
 
         if not (1 <= microsec_precision <= 4):
             raise InvalidMicrosecondsPrecision()
@@ -281,7 +281,7 @@ class TM(DateTimeDataType):
         self.offset = offset
 
     def to_er7(self, encoding_chars=None):
-        date_value = super(TM, self).to_er7()
+        date_value = super().to_er7()
         if self.format.find('%f') != -1:
             index = 6 - self.microsec_precision
             date_value = date_value[:-index]
@@ -302,7 +302,7 @@ class DTM(TM):
                        '%Y%m%d%H%M%S', '%Y%m%d%H%M%S.%f')
 
     def __init__(self, value=None, out_format='%Y%m%d%H%M%S.%f', offset='', microsec_precision=4):
-        super(DTM, self).__init__(value, out_format, offset, microsec_precision)
+        super().__init__(value, out_format, offset, microsec_precision)
 
 
 class ST(TextualDataType):
@@ -314,7 +314,7 @@ class ST(TextualDataType):
     """
     def __init__(self, value, highlights=None,
                  validation_level=None):
-        super(ST, self).__init__(value, 199, highlights, validation_level)
+        super().__init__(value, 199, highlights, validation_level)
 
 
 class FT(TextualDataType):
@@ -326,7 +326,7 @@ class FT(TextualDataType):
     """
     def __init__(self, value, highlights=None,
                  validation_level=None):
-        super(FT, self).__init__(value, 65536, highlights, validation_level)
+        super().__init__(value, 65536, highlights, validation_level)
 
 
 class ID(TextualDataType):
@@ -339,7 +339,7 @@ class ID(TextualDataType):
     def __init__(self, value, highlights=None,
                  validation_level=None):
         # max_length is None bacause it depends from the HL7 table
-        super(ID, self).__init__(value, None, highlights, validation_level)
+        super().__init__(value, None, highlights, validation_level)
         # TODO: check for tables of allowed values: are we strict or not?
 
 
@@ -352,7 +352,7 @@ class IS(TextualDataType):
     """
     def __init__(self, value, highlights=None,
                  validation_level=None):
-        super(IS, self).__init__(value, 20, highlights, validation_level)
+        super().__init__(value, 20, highlights, validation_level)
         # TODO: check for tables of allowed values (also defined on site): are we strict or not?
 
 
@@ -365,7 +365,7 @@ class TX(TextualDataType):
     """
     def __init__(self, value, highlights=None,
                  validation_level=None):
-        super(TX, self).__init__(value, 65536, highlights, validation_level)
+        super().__init__(value, 65536, highlights, validation_level)
 
 
 class GTS(TextualDataType):
@@ -377,7 +377,7 @@ class GTS(TextualDataType):
     """
     def __init__(self, value, highlights=None,
                  validation_level=None):
-        super(GTS, self).__init__(value, 199, highlights, validation_level)
+        super().__init__(value, 199, highlights, validation_level)
 
 
 class NM(NumericDataType):
@@ -398,7 +398,7 @@ class NM(NumericDataType):
             value = Decimal(value)
         elif value is not None and not isinstance(value, Decimal):
             raise ValueError('Invalid value for a NM data')
-        super(NM, self).__init__(value, 16, validation_level)
+        super().__init__(value, 16, validation_level)
 
 
 class SI(NumericDataType):
@@ -416,7 +416,7 @@ class SI(NumericDataType):
         if value is not None and not isinstance(value, numbers.Integral):
             raise ValueError('Invalid value for a SI data')
 
-        super(SI, self).__init__(value, 4, validation_level)
+        super().__init__(value, 4, validation_level)
 
 
 class TN(TextualDataType):
@@ -436,4 +436,4 @@ class TN(TextualDataType):
         if not re.match(regexp, value):
             raise ValueError('Invalid value for TN data')
 
-        super(TN, self).__init__(value, 199, None, validation_level)
+        super().__init__(value, 199, None, validation_level)

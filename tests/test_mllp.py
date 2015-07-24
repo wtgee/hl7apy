@@ -61,7 +61,7 @@ class PDQHandler(AbstractHandler):
 
 class ErrorHandler(AbstractHandler):
     def __init__(self, exc, msg):
-        super(ErrorHandler, self).__init__(msg)
+        super().__init__(msg)
         self.exc = exc
 
     def reply(self):
@@ -74,7 +74,7 @@ class ErrorHandler(AbstractHandler):
 class CustomArgsPDQHandler(AbstractHandler):
 
     def __init__(self, msg, is_pdqv):
-        super(CustomArgsPDQHandler, self).__init__(msg)
+        super().__init__(msg)
         self.is_pdqv = is_pdqv
 
     def reply(self):

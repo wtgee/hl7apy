@@ -81,6 +81,7 @@ def check_version(version):
     :param version: the version to validate (e.g. ``2.6``)
     :raises: :class:`hl7apy.exceptions.UnsupportedVersion` if the given version is unsupported
     """
+    print(version)
     if version not in SUPPORTED_LIBRARIES:
         raise UnsupportedVersion(version)
 
