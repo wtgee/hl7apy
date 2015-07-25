@@ -1,3 +1,11 @@
+from __future__ import unicode_literals
+from __future__ import print_function
+from __future__ import division
+from __future__ import absolute_import
+from future import standard_library
+standard_library.install_aliases()
+from builtins import *
+from builtins import range
 # -*- coding: utf-8 -*-
 #
 # Copyright (c) 2012-2015, CRS4
@@ -668,7 +676,7 @@ def create_groups(message, children, validation_level=None):
     # for each segment found in the message...
     for c in children:
         found = -1
-        for x in xrange(len(search_data['structures'])):
+        for x in range(len(search_data['structures'])):
             found = _find_group(c, search_data, validation_level)
             # group not found at the current level, go back to the previous level
             if found == -1:
