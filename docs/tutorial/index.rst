@@ -541,7 +541,7 @@ with the name of the demographic database to retrieve the patients information f
 
   class PDQHandler(AbstractHandler):
       def __init__(self, msg, database_name):
-          super(PDQHandler, self).__init__(msg)
+          super().__init__(msg)
           self.database_name = database_name
 
       def reply(self):

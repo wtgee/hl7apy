@@ -145,7 +145,7 @@ class ElementProxy(collections.Sequence):
         if not self.list:
             return iter([])
         else:
-            return super(ElementProxy, self).__iter__()
+            return super().__iter__()
 
     def __getattr__(self, name):
         try:
@@ -159,7 +159,7 @@ class ElementProxy(collections.Sequence):
 
     def __setattr__(self, name, value):
         if name in self.cls_attrs:
-            super(ElementProxy, self).__setattr__(name, value)
+            super().__setattr__(name, value)
         else:
             try:
                 element = self.list[0]
@@ -263,7 +263,7 @@ class ElementList(collections.MutableSequence):
                     self.traversal_indexes[child.name] = [child]
 
     def pop(self, index=0):
-        child = super(ElementList, self).pop(index)
+        child = super().pop(index)
         self._remove_from_index(child)
         return child
 
@@ -855,7 +855,7 @@ class Element(object):
                 if not isinstance(value, ElementList):
                     children = value
                     value = ElementList(self)
-            super(Element, self).__setattr__(name, value)
+            super().__setattr__(name, value)
             for c in children:
                 self.add(c)
         elif hasattr(self, 'children'):
@@ -863,7 +863,7 @@ class Element(object):
 
     def __delattr__(self, name):
         if name in self.cls_attrs:
-            super(Element, self).__delattr__(name)
+            super().__delattr__(name)
         else:
             self.children.remove_by_name(name)
 
@@ -952,7 +952,7 @@ class SupportComplexDataType(Element):
             self.children = children
 
     def _get_value(self):
-        return super(SupportComplexDataType, self)._get_value()
+        return super()._get_value()
 
     value = property(_get_value, _set_value)
 
@@ -1263,17 +1263,17 @@ class Component(SupportComplexDataType, CanBeVaries):
         except ChildNotFound:  # obj.datatype causes ChildNotFound for some Elements (Message, Groups etc)
             raise ChildNotValid(obj, self)
 
-        return super(Component, self).add(obj)
+        return super().add(obj)
 
     def parse_child(self, text, child_name=None, reference=None):
         kwargs = {'name': child_name}
         if reference is not None:
             kwargs['datatype'] = reference[6] if reference[0] == 'mp' else reference[1]
-        return super(Component, self).parse_child(text, **kwargs)
+        return super().parse_child(text, **kwargs)
 
     def parse_children(self, text, **kwargs):
         kwargs = {'component_datatype': self.datatype, 'encoding_chars': self.encoding_chars}
-        return super(Component, self).parse_children(text, **kwargs)
+        return super().parse_children(text, **kwargs)
 
 
 class Field(SupportComplexDataType):
@@ -1366,7 +1366,7 @@ class Field(SupportComplexDataType):
                        'ref': ('leaf', None, None, None)}
             return element
 
-        return super(Field, self).find_child_reference(name)
+        return super().find_child_reference(name)
 
     def add(self, obj):
         """
@@ -1387,17 +1387,17 @@ class Field(SupportComplexDataType):
                 len(self.children) >= 1:
             raise MaxChildLimitReached(self, obj, 1)
 
-        return super(Field, self).add(obj)
+        return super().add(obj)
 
     def parse_child(self, text, child_name=None, reference=None):
         kwargs = {'encoding_chars': self.encoding_chars, 'reference': reference, 'name': child_name}
         if reference is not None:
             kwargs['datatype'] = reference[6] if reference[0] == 'mp' else reference[1]
-        return super(Field, self).parse_child(text, **kwargs)
+        return super().parse_child(text, **kwargs)
 
     def parse_children(self, text, **kwargs):
         kwargs = {'field_datatype': self.datatype, 'references': self.structure_by_name}
-        return super(Field, self).parse_children(text, **kwargs)
+        return super().parse_children(text, **kwargs)
 
     def to_er7(self, encoding_chars=None, trailing_children=False):
         """
@@ -1429,7 +1429,7 @@ class Field(SupportComplexDataType):
                 return self.msh_2_1.children[0].value.value
             except IndexError:
                 return self.msh_2_1.children[0].value
-        return super(Field, self).to_er7(encoding_chars, trailing_children)
+        return super().to_er7(encoding_chars, trailing_children)
 
     def is_z_element(self):
         return self.name is not None and _valid_z_field_name(self.name)
@@ -1441,10 +1441,10 @@ class Field(SupportComplexDataType):
             c.value = value
             self.add(c)
         else:
-            super(Field, self)._set_value(value)
+            super()._set_value(value)
 
     def _get_value(self):
-        return super(Field, self)._get_value()
+        return super()._get_value()
 
     value = property(_get_value, _set_value)
 
@@ -1479,11 +1479,11 @@ class Field(SupportComplexDataType):
     def _do_traversal(self, mode, name, value=None):
         try:
             if mode == 'get':
-                return super(Field, self).__getattr__(name)
+                return super().__getattr__(name)
             elif mode == 'set':
-                super(Field, self).__setattr__(name, value)
+                super().__setattr__(name, value)
             else:
-                super(Field, self).__delattr__(name)
+                super().__delattr__(name)
         except ChildNotFound:
             component, subcomponent = self._get_traversal_children(name)
             if component is None:
@@ -1566,13 +1566,13 @@ class Segment(Element):
             if reference is None:
                 reference = ('sequence', ())
 
-            super(Segment, self).__init__(name, parent, reference, version,
+            super().__init__(name, parent, reference, version,
                                           validation_level, traversal_parent)
             self.allow_infinite_children = True
             self._last_allowed_child_index = 0
             self._last_child_index = 0
         else:
-            super(Segment, self).__init__(name, parent, reference, version,
+            super().__init__(name, parent, reference, version,
                                           validation_level, traversal_parent)
 
             last_field = self.ordered_children[-1]
@@ -1582,7 +1582,7 @@ class Segment(Element):
             self._last_child_index = self._last_allowed_child_index
 
     def add(self, obj):
-        super(Segment, self).add(obj)
+        super().add(obj)
         # updates the index of the last children not allowed
         if obj.name and self.allow_infinite_children:
             field_index = int(obj.name[4:])
@@ -1639,7 +1639,7 @@ class Segment(Element):
         kwargs = {'encoding_chars': self.encoding_chars,
                   'reference': reference, 'name': child_name,
                   'force_varies': self.allow_infinite_children}
-        return super(Segment, self).parse_child(text, **kwargs)
+        return super().parse_child(text, **kwargs)
 
     def parse_children(self, text, **kwargs):
         segment_name = text[:3].upper()
@@ -1649,7 +1649,7 @@ class Segment(Element):
         kwargs = {'name_prefix': self.name,
                   'references': self.structure_by_name,
                   'force_varies': self.allow_infinite_children}
-        return super(Segment, self).parse_children(text, **kwargs)
+        return super().parse_children(text, **kwargs)
 
     def to_er7(self, encoding_chars=None, trailing_children=False):
         """
@@ -1697,7 +1697,7 @@ class Segment(Element):
         # cannot add an unknown child with strict validation
         if child.name is None and Validator.is_strict(self.validation_level):
             return False
-        valid = super(Segment, self)._is_valid_child(child)
+        valid = super()._is_valid_child(child)
         if valid:
             if child.name is not None:
                 # cannot add a child with a name that differs from the segment name
@@ -1749,7 +1749,7 @@ class Group(Element):
                  validation_level=None, traversal_parent=None):
 
         self.child_classes = (Segment, Group)
-        super(Group, self).__init__(name, parent, reference, version, validation_level, traversal_parent)
+        super().__init__(name, parent, reference, version, validation_level, traversal_parent)
         if self.name is None and Validator.is_strict(self.validation_level):
             raise OperationNotAllowed("Cannot instantiate an unknown Element with strict validation")
 
@@ -1821,7 +1821,7 @@ class Group(Element):
     def parse_children(self, text, find_groups=True, **kwargs):
         from hl7apy.parser import create_groups
         kwargs = {'references': self.structure_by_name}
-        children = super(Group, self).parse_children(text, **kwargs)
+        children = super().parse_children(text, **kwargs)
         if self.name and find_groups:
             self.children = []
             create_groups(self, children, validation_level=self.validation_level)
@@ -1875,12 +1875,12 @@ class Message(Group):
             except TypeError:
                 pass
         try:
-            super(Message, self).__init__(name, None, reference, version,
+            super().__init__(name, None, reference, version,
                                           validation_level)
         except InvalidName:
             if _valid_z_message_name(name):
                 reference = ('sequence', ())
-                super(Message, self).__init__(name, None, reference, version,
+                super().__init__(name, None, reference, version,
                                               validation_level)
             else:
                 raise
@@ -1924,7 +1924,7 @@ class Message(Group):
         elif self.encoding_chars != encoding_chars:
             raise OperationNotAllowed('Cannot assign a message with different encoding chars')
 
-        super(Message, self).parse_children(text, find_groups, **kwargs)
+        super().parse_children(text, find_groups, **kwargs)
 
     def to_mllp(self, encoding_chars=None, trailing_children=False):
         """

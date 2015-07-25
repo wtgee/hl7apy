@@ -192,8 +192,8 @@ class AbstractErrorHandler(AbstractHandler):
     :param exc: the :exc:`Exception` occurred
     """
     def __init__(self, exc, message):
-        super(AbstractErrorHandler, self).__init__(message)
+        super().__init__(message)
         self.exc = exc
 
     def reply(self):
-        super(AbstractErrorHandler, self).reply()
+        super().reply()

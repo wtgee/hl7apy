@@ -68,7 +68,7 @@ class PDQHandler(AbstractHandler):
 
 class ErrorHandler(AbstractHandler):
     def __init__(self, exc, msg):
-        super(ErrorHandler, self).__init__(msg)
+        super().__init__(msg)
         self.exc = exc
 
     def reply(self):
@@ -81,7 +81,7 @@ class ErrorHandler(AbstractHandler):
 class CustomArgsPDQHandler(AbstractHandler):
 
     def __init__(self, msg, is_pdqv):
-        super(CustomArgsPDQHandler, self).__init__(msg)
+        super().__init__(msg)
         self.is_pdqv = is_pdqv
 
     def reply(self):
@@ -122,15 +122,16 @@ class TestMLLPWithErrorHandler(unittest.TestCase):
     def _client(self, msg):
         # establish the connection
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
         try:
             sock.connect((HOST, PORT))
             sock.sendall(msg.encode('ascii'))
-            res = []
+            res = list()
             while True:
                 received = sock.recv(1).decode('ascii')
                 if not received:
                     break
-                res.append(received)
+                res.append(received.decode('ascii'))
         finally:
             sock.close()
 
@@ -181,12 +182,12 @@ class TestMLLPWithoutErrorHandler(unittest.TestCase):
         try:
             sock.connect((HOST, PORT + 1))
             sock.sendall(msg.encode('ascii'))
-            res = []
+            res = list()
             while True:
                 received = sock.recv(1)
                 if not received:
                     break
-                res.append(received)
+                res.append(received.decode('ascii'))
         finally:
             sock.close()
 

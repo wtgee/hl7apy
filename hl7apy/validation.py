@@ -38,7 +38,7 @@ class Validator(object):
     an element using :attr:`VALIDATION.STRICT <hl7apy.consts.VALIDATION_LEVEL.STRICT>` validation level
     """
     def __init__(self, level):
-        super(Validator, self).__init__()
+        super().__init__()
         self.level = level
 
     @staticmethod
