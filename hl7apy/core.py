@@ -617,7 +617,6 @@ class Element(object):
             version = get_default_version()
 
         check_validation_level(validation_level)
-        # print("Version {}".format(version))
         check_version(version)
 
         self.validation_level = validation_level
