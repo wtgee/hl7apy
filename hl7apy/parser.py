@@ -38,7 +38,7 @@ from hl7apy.validation import Validator
 
 
 def parse_message(message, validation_level=None, find_groups=True, message_profile=None, report_file=None,
-                  force_validation=False):
+                  force_validation=False, force_version=None):
     """
     Parse the given ER7-encoded message and return an instance of :class:`Message <hl7apy.core.Message>`.
 
@@ -56,7 +56,10 @@ def parse_message(message, validation_level=None, find_groups=True, message_prof
         children of the :class:`Message <hl7apy.core.Message>` instance
 
     :type force_validation: ``bool``
-    :type force_validation: if ``True``, automatically forces the message validation after the end of the parsing
+    :param force_validation: if ``True``, automatically forces the message validation after the end of the parsing
+
+    :type force_version: ``str``
+    :param force_version: the HL7 version (e.g. "2.5"), or ``None`` to use the version from the message
 
     :return: an instance of :class:`Message <hl7apy.core.Message>`
 
@@ -72,6 +75,8 @@ def parse_message(message, validation_level=None, find_groups=True, message_prof
     """
     message = message.lstrip()
     encoding_chars, message_structure, version = get_message_info(message)
+    if force_version:
+        version = force_version
 
     validation_level = _get_validation_level(validation_level)
 
