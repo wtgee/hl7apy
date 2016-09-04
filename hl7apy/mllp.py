@@ -1,7 +1,7 @@
-from __future__ import unicode_literals
-from __future__ import print_function
-from __future__ import division
 from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+from __future__ import unicode_literals
 from builtins import *
 from future import standard_library
 standard_library.install_aliases()
@@ -29,10 +29,14 @@ from builtins import object
 
 import re
 import socket
-from socketserver import StreamRequestHandler, TCPServer, ThreadingMixIn
 
+from socketserver import StreamRequestHandler
+from socketserver import TCPServer
+from socketserver import ThreadingMixIn
+
+from hl7apy.exceptions import HL7apyException
+from hl7apy.exceptions import ParserError
 from hl7apy.parser import get_message_type
-from hl7apy.exceptions import HL7apyException, ParserError
 
 
 class UnsupportedMessageType(HL7apyException):
@@ -71,7 +75,7 @@ class _MLLPRequestHandler(StreamRequestHandler):
     def handle(self):
         end_seq = "{}{}".format(self.eb, self.cr)
         try:
-            line = self.request.recv(3)
+            line = str(self.request.recv(3), 'ascii')
         except socket.timeout:
             self.request.close()
             return
@@ -82,7 +86,7 @@ class _MLLPRequestHandler(StreamRequestHandler):
 
         while line[-2:] != end_seq:
             try:
-                char = self.rfile.read(1)
+                char = str(self.rfile.read(1), 'ascii')
                 if not char:
                     break
                 line += char
